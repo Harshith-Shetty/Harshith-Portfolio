@@ -35,7 +35,7 @@ function AchievementCard({id, title, details, date, field, image}) {
                     <div className="achievecard-details2" style={{color: theme.primary400}}>
                         <h5>{date}</h5>
                         <div className="achievecard-field">
-                            <AiOutlineFolder />
+                            {/* <AiOutlineFolder /> */}
                             <h5>{field}</h5>
                         </div>   
                     </div>
@@ -43,6 +43,8 @@ function AchievementCard({id, title, details, date, field, image}) {
                 <div className="achievecard-imgcontainer">
                     <img src={image} alt="" />
                 </div>
+                <br>
+                </br>
            </div>
         </Fade>
         
