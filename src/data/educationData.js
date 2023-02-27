@@ -12,5 +12,12 @@ export const educationData = [
         standard: 'Higher Secondary Education',
         course: 'Major in Science',
         endYear: '2019'
+    },
+    {
+        id: 3,
+        institution: 'Carmel Convent High School, Badlapur, Mumbai, India',
+        standard: 'Secondary School education',
+        course: 'General',
+        endYear: '2017'
     }
 ]
