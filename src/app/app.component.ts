@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HeroComponent } from './components/hero/hero.component';
 import { ExperienceComponent } from './components/experience/experience.component';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
