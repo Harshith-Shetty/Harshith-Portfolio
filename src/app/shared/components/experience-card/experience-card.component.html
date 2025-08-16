@@ -1,0 +1,7 @@
+<div class="experience-card">
+  <h3>{{ experience.role }} - {{ experience.company }}</h3>
+  <p class="meta">{{ experience.location }} | {{ experience.start }} - {{ experience.end }}</p>
+  <ul>
+    <li *ngFor="let item of experience.achievements">{{ item }}</li>
+  </ul>
+</div>
