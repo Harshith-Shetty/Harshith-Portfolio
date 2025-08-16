@@ -1,0 +1,13 @@
+<section class="hero">
+  <h1 class="name">{{ name }}</h1>
+  <h2 class="title">{{ title }}</h2>
+
+  <div class="links">
+    <app-social-link *ngFor="let link of links" [label]="link.label" [url]="link.url"></app-social-link>
+  </div>
+
+  <div class="contact">
+    <span>{{ phone }}</span>
+    <span>{{ email }}</span>
+  </div>
+</section>
