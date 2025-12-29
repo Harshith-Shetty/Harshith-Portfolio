@@ -1,56 +1,54 @@
-import { pgTable, text, serial, varchar, timestamp, jsonb } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// === TABLE DEFINITIONS ===
+// === SHARED DATA SHAPES ===
 
-export const experiences = pgTable("experiences", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  company: text("company").notNull(),
-  period: text("period").notNull(),
-  description: text("description").notNull(), // Storing bullet points as newline separated text or JSON
+export const experienceSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  company: z.string(),
+  period: z.string(),
+  description: z.string(),
 });
 
-export const projects = pgTable("projects", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  technologies: jsonb("technologies").$type<string[]>().notNull(),
-  link: text("link"),
+export const projectSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  technologies: z.array(z.string()),
+  link: z.string().url().optional().nullable(),
 });
 
-export const skills = pgTable("skills", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  category: text("category").notNull(), // e.g., "Languages", "Frameworks", "Data Engineering"
+export const skillSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  category: z.string(),
 });
 
-export const messages = pgTable("messages", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  message: text("message").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+export const messageSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  message: z.string(),
+  createdAt: z.string().optional(),
 });
 
-// === SCHEMAS ===
+// === INPUT SCHEMAS ===
 
-export const insertExperienceSchema = createInsertSchema(experiences).omit({ id: true });
-export const insertProjectSchema = createInsertSchema(projects).omit({ id: true });
-export const insertSkillSchema = createInsertSchema(skills).omit({ id: true });
-export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
+export const insertExperienceSchema = experienceSchema.omit({ id: true });
+export const insertProjectSchema = projectSchema.omit({ id: true });
+export const insertSkillSchema = skillSchema.omit({ id: true });
+export const insertMessageSchema = messageSchema.omit({ id: true, createdAt: true });
 
-// === EXPLICIT API TYPES ===
+// === TYPES ===
 
-export type Experience = typeof experiences.$inferSelect;
+export type Experience = z.infer<typeof experienceSchema>;
 export type InsertExperience = z.infer<typeof insertExperienceSchema>;
 
-export type Project = typeof projects.$inferSelect;
+export type Project = z.infer<typeof projectSchema>;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 
-export type Skill = typeof skills.$inferSelect;
+export type Skill = z.infer<typeof skillSchema>;
 export type InsertSkill = z.infer<typeof insertSkillSchema>;
 
-export type Message = typeof messages.$inferSelect;
+export type Message = z.infer<typeof messageSchema>;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
