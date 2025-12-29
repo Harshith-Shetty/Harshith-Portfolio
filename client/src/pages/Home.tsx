@@ -84,7 +84,7 @@ function Hero() {
           >
             <div className="aspect-square rounded-full bg-gradient-to-tr from-primary/20 to-accent/20 blur-3xl absolute inset-0 -z-10" />
             <div className="relative z-10 grid grid-cols-2 gap-4">
-               <Card className="bg-card/50 backdrop-blur border-primary/20 transform translate-y-8">
+               <Card className="bg-card/50 backdrop-blur border-primary/20 transform translate-y-8 relative z-20">
                  <CardContent className="p-6 flex flex-col items-center text-center gap-4">
                    <div className="p-3 rounded-full bg-blue-500/10 text-blue-500">
                      <Database className="w-8 h-8" />
@@ -95,7 +95,7 @@ function Hero() {
                    </div>
                  </CardContent>
                </Card>
-               <Card className="bg-card/50 backdrop-blur border-purple-500/20">
+               <Card className="bg-card/50 backdrop-blur border-purple-500/20 transform -translate-y-4">
                  <CardContent className="p-6 flex flex-col items-center text-center gap-4">
                    <div className="p-3 rounded-full bg-purple-500/10 text-purple-500">
                      <Code className="w-8 h-8" />
@@ -106,7 +106,18 @@ function Hero() {
                    </div>
                  </CardContent>
                </Card>
-               <Card className="bg-card/50 backdrop-blur border-emerald-500/20 col-span-2 transform -translate-y-4 md:mx-12">
+               <Card className="bg-card/50 backdrop-blur border-emerald-500/20 col-span-1 transform -translate-y-3 -translate-x-4 relative z-10">
+                 <CardContent className="p-6 flex flex-col items-center text-center gap-4">
+                   <div className="p-3 rounded-full bg-emerald-500/10 text-emerald-500">
+                     <Server className="w-8 h-8" />
+                   </div>
+                   <div>
+                     <h3 className="font-bold">Backend Systems</h3>
+                     <p className="text-sm text-muted-foreground mt-1">Microservices, APIs, Cloud</p>
+                   </div>
+                 </CardContent>
+               </Card>
+               <Card className="bg-card/50 backdrop-blur border-emerald-500/20 col-span-1 transform -translate-y-4 -translate-x-4 relative z-10">
                  <CardContent className="p-6 flex flex-col items-center text-center gap-4">
                    <div className="p-3 rounded-full bg-emerald-500/10 text-emerald-500">
                      <Server className="w-8 h-8" />
