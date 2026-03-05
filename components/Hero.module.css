@@ -1,0 +1,240 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 120px 0 60px;
+}
+
+/* ── Gradient orbs ──────────────────────────────── */
+.orb1, .orb2, .orb3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(0,212,170,0.15), transparent 70%);
+  top: -100px; left: -100px;
+  animation: float 8s ease-in-out infinite;
+}
+.orb2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(124,58,237,0.12), transparent 70%);
+  bottom: 0; right: -80px;
+  animation: float 10s ease-in-out infinite reverse;
+}
+.orb3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,180,216,0.1), transparent 70%);
+  top: 40%; left: 40%;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-20px) scale(1.05); }
+}
+
+/* ── Two-column inner ───────────────────────────── */
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+/* ── Left: text ─────────────────────────────────── */
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.availableBadge {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.8rem;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: rgba(0,212,170,0.1);
+  color: var(--accent-teal);
+  border: 1px solid rgba(0,212,170,0.25);
+  font-weight: 500;
+}
+
+.name {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--text-primary);
+}
+
+.title {
+  font-size: clamp(1.2rem, 3vw, 1.9rem);
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  font-family: "JetBrains Mono", monospace;
+}
+.tagline::before { content: "// "; color: var(--accent-teal); }
+
+.summary {
+  font-size: 0.93rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ── Stats ──────────────────────────────────────── */
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.statNum {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.statLabel {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 500;
+}
+.statDivider {
+  width: 1px; height: 36px;
+  background: var(--border);
+}
+
+/* ── Right: photo ───────────────────────────────── */
+.photoCol {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photoFrame {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+
+/* Rotating gradient ring behind the photo */
+.photoFrame::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  animation: spin-slow 6s linear infinite;
+  z-index: 0;
+}
+
+/* Solid bg ring to create the gap between photo and gradient ring */
+.photoFrame::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  z-index: 1;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Subtle ambient glow */
+.photoGlow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,212,170,0.18), transparent 70%);
+  z-index: 0;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%,100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+.photo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+/* Scroll indicator */
+.scrollIndicator {
+  position: absolute;
+  bottom: 2rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+.scrollDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-teal);
+  animation: scrollBounce 1.6s ease-in-out infinite;
+}
+@keyframes scrollBounce {
+  0%,100% { transform: translateY(0); opacity: 1; }
+  50%      { transform: translateY(8px); opacity: 0.4; }
+}
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 900px) {
+  .inner {
+    flex-direction: column-reverse;
+    gap: 2.5rem;
+    text-align: center;
+  }
+  .ctas { justify-content: center; }
+  .stats { justify-content: center; }
+  .summary { margin: 0 auto 2rem; }
+  .photoFrame { width: 200px; height: 200px; }
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 100px 0 50px; }
+  .photoFrame { width: 160px; height: 160px; }
+}

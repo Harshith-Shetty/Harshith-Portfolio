@@ -1,0 +1,52 @@
+.section {
+  background: var(--bg-secondary);
+  padding-bottom: 0;
+}
+
+.wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.message {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta {
+  font-size: 0.95rem;
+}
+
+.location {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer {
+  margin-top: 5rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footerSub {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  opacity: 0.7;
+}

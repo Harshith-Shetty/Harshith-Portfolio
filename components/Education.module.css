@@ -1,0 +1,45 @@
+.section {
+  background: var(--bg-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  text-align: center;
+}
+
+.icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.institution {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.degree {
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.years {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: "JetBrains Mono", monospace;
+}
