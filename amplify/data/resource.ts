@@ -20,8 +20,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.publicApiKey().to(["read"]),
-      allow.owner(),
-      allow.authenticated("iam"),
     ]),
 
   /**
@@ -40,8 +38,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.publicApiKey().to(["read"]),
-      allow.owner(),
-      allow.authenticated("iam"),
     ]),
 
   /**
@@ -59,8 +55,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.publicApiKey().to(["read"]),
-      allow.owner(),
-      allow.authenticated("iam"),
     ]),
 
   /**
@@ -104,8 +98,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.publicApiKey().to(["read"]),
-      allow.owner(),
-      allow.authenticated("iam"),
     ]),
 
 
@@ -125,8 +117,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.publicApiKey().to(["read"]),
-      allow.owner(),
-      allow.authenticated("iam"),
     ]),
 
   /**
@@ -148,8 +138,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.publicApiKey().to(["read"]),
-      allow.owner(),
-      allow.authenticated("iam"),
     ]),
 
   /**
@@ -167,8 +155,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.publicApiKey().to(["read"]),
-      allow.owner(),
-      allow.authenticated("iam"),
     ]),
 });
 
