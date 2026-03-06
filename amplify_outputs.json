@@ -1,0 +1,10 @@
+{
+  "data": {
+    "url": "PLACEHOLDER",
+    "aws_region": "us-east-1",
+    "api_key": "PLACEHOLDER",
+    "default_authorization_type": "API_KEY",
+    "authorization_types": [],
+    "model_introspection": { "version": 1, "models": {}, "nonModels": {}, "enums": {} }
+  }
+}

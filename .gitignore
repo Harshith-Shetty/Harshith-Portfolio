@@ -38,8 +38,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Amplify backend 
-amplify_outputs.json
+# Real config is injected at Amplify Hosting build time via AMPLIFY_OUTPUTS env var
 .amplify/
 
 # Seed script compiled output

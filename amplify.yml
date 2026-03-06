@@ -4,8 +4,8 @@ frontend:
     preBuild:
       commands:
         - npm ci --cache .npm --prefer-offline
-        # Write amplify_outputs.json from the env var set in Amplify Console
-        - echo "$AMPLIFY_OUTPUTS" > amplify_outputs.json
+        # Overwrite placeholder with real config if env var is set
+        - if [ -n "$AMPLIFY_OUTPUTS" ]; then echo "$AMPLIFY_OUTPUTS" > amplify_outputs.json; fi
     build:
       commands:
         - npm run build
