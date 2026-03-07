@@ -398,58 +398,57 @@ export const CERTIFICATIONS: TCertification[] = [
 ];
 
 // ---------- Amplify Data client (server-side) ----------
-// getServerClient() returns null only when amplify_outputs.json is still a placeholder.
-// Once the real backend is deployed, all queries go to DynamoDB — static data is NEVER
-// returned as a fallback for a live client.
+// getServerClient() returns null when amplify_outputs.json has PLACEHOLDER values.
+// In that case every getter returns null/empty — the site shows nothing rather than
+// serving stale hardcoded data.
 
 import { getServerClient } from "@/lib/amplify-client";
 
 export async function getProfile(): Promise<TProfile | null> {
   const client = getServerClient();
-  // No real backend yet — use static data only during local dev before sandbox runs
-  if (!client) return PROFILE.is_active ? PROFILE : null;
+  if (!client) return null;
   const { data } = await client.models.Profile.list({ filter: { is_active: { eq: true } } });
   return (data[0] as TProfile) ?? null;
 }
 
 export async function getExperiences(): Promise<TExperience[]> {
   const client = getServerClient();
-  if (!client) return EXPERIENCES.filter((e) => e.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  if (!client) return [];
   const { data } = await client.models.Experience.list({ filter: { is_active: { eq: true } } });
   return (data as TExperience[]).sort((a, b) => a.sort_order - b.sort_order);
 }
 
 export async function getInternships(): Promise<TInternship[]> {
   const client = getServerClient();
-  if (!client) return INTERNSHIPS.filter((i) => i.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  if (!client) return [];
   const { data } = await client.models.Internship.list({ filter: { is_active: { eq: true } } });
   return (data as TInternship[]).sort((a, b) => a.sort_order - b.sort_order);
 }
 
 export async function getProjects(): Promise<TProject[]> {
   const client = getServerClient();
-  if (!client) return PROJECTS.filter((p) => p.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  if (!client) return [];
   const { data } = await client.models.Project.list({ filter: { is_active: { eq: true } } });
   return (data as TProject[]).sort((a, b) => a.sort_order - b.sort_order);
 }
 
 export async function getSkills(): Promise<TSkill[]> {
   const client = getServerClient();
-  if (!client) return SKILLS.filter((s) => s.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  if (!client) return [];
   const { data } = await client.models.Skill.list({ filter: { is_active: { eq: true } } });
   return (data as TSkill[]).sort((a, b) => a.sort_order - b.sort_order);
 }
 
 export async function getEducations(): Promise<TEducation[]> {
   const client = getServerClient();
-  if (!client) return EDUCATIONS.filter((e) => e.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  if (!client) return [];
   const { data } = await client.models.Education.list({ filter: { is_active: { eq: true } } });
   return (data as TEducation[]).sort((a, b) => a.sort_order - b.sort_order);
 }
 
 export async function getCertifications(): Promise<TCertification[]> {
   const client = getServerClient();
-  if (!client) return CERTIFICATIONS.filter((c) => c.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  if (!client) return [];
   const { data } = await client.models.Certification.list({ filter: { is_active: { eq: true } } });
   return (data as TCertification[]).sort((a, b) => a.sort_order - b.sort_order);
 }
