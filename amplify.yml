@@ -1,11 +1,18 @@
 version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - npm ci --cache .npm --prefer-offline
+        # Deploy Amplify Gen 2 backend (DynamoDB, AppSync) — skipped if already up to date
+        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+        # Seed data if tables are empty (idempotent — skips if data exists)
+        - npx ts-node --project tsconfig.seed.json scripts/seed-dynamo.ts
 frontend:
   phases:
     preBuild:
       commands:
         - npm ci --cache .npm --prefer-offline
-        # Overwrite placeholder with real config if env var is set
-        - if [ -n "$AMPLIFY_OUTPUTS" ]; then echo "$AMPLIFY_OUTPUTS" > amplify_outputs.json; fi
     build:
       commands:
         - npm run build

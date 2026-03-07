@@ -1,35 +1,48 @@
 // @ts-nocheck
 /**
  * DynamoDB-direct seed script.
- * Uses @aws-sdk/lib-dynamodb with local AWS credentials — bypasses AppSync auth entirely.
+ * Auto-discovers table names via AWS SDK — no hardcoded suffix needed.
+ * Skips seeding if Profile table already has data (safe to run on every deploy).
  *
- * Run after `npx ampx sandbox` finishes:
- *   npx ts-node --project tsconfig.seed.json scripts/seed-dynamo.ts
- *
- * Table name suffix: -4zoufaemjfattimhyf3b6myxtq-NONE
- * (Update SUFFIX below if you recreate the sandbox)
+ * Local:  npx ts-node --project tsconfig.seed.json scripts/seed-dynamo.ts
+ * CI/CD:  called automatically from amplify.yml after pipeline-deploy
  */
 
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, ListTablesCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { randomUUID } from "crypto";
 
-const REGION = "us-east-1";
-const SUFFIX = "-4zoufaemjfattimhyf3b6myxtq-NONE";
+const REGION = process.env.AWS_REGION || "us-east-1";
 const now = new Date().toISOString();
 
-const dynamo = DynamoDBDocumentClient.from(
-  new DynamoDBClient({ region: REGION }),
-  { marshallOptions: { removeUndefinedValues: true } }
-);
+const raw = new DynamoDBClient({ region: REGION });
+const dynamo = DynamoDBDocumentClient.from(raw, { marshallOptions: { removeUndefinedValues: true } });
 
-function table(name: string) {
-  return `${name}${SUFFIX}`;
+// Auto-discover the table suffix by listing DynamoDB tables
+async function discoverSuffix(): Promise<string> {
+  const { TableNames } = await raw.send(new ListTablesCommand({}));
+  const profileTable = (TableNames || []).find((t) => t.startsWith("Profile-"));
+  if (!profileTable) throw new Error("Profile DynamoDB table not found. Is the backend deployed?");
+  return profileTable.replace("Profile", ""); // e.g. "-4zoufaemjfattimhyf3b6myxtq-NONE"
 }
+
+async function isAlreadySeeded(profileTable: string): Promise<boolean> {
+  const result = await raw.send(new ScanCommand({ TableName: profileTable, Select: "COUNT" }));
+  return (result.Count || 0) > 0;
+}
+
+let SUFFIX = "";
+function table(name: string) { return `${name}${SUFFIX}`; }
 
 async function put(tableName: string, item: Record<string, unknown>) {
-  await dynamo.send(new PutCommand({ TableName: table(tableName), Item: { id: randomUUID(), __typename: tableName, createdAt: now, updatedAt: now, _version: 1, _lastChangedAt: Date.now(), ...item } }));
+  await dynamo.send(new PutCommand({
+    TableName: table(tableName),
+    Item: { id: randomUUID(), __typename: tableName, createdAt: now, updatedAt: now, _version: 1, _lastChangedAt: Date.now(), ...item },
+  }));
 }
+
+
+
 
 // ── Profile ───────────────────────────────────────────────────────────────────
 async function seedProfile() {
@@ -138,7 +151,17 @@ async function seedCertifications() {
 
 // ── Main ───────────────────────────────────────────────────────────────────────
 async function main() {
-  console.log("🌱 Seeding DynamoDB tables directly...\n");
+  console.log("🔍 Discovering DynamoDB table names...");
+  SUFFIX = await discoverSuffix();
+  console.log(`   Table suffix: ${SUFFIX}`);
+
+  const profileTable = `Profile${SUFFIX}`;
+  if (await isAlreadySeeded(profileTable)) {
+    console.log("⏭️  Tables already have data — skipping seed.");
+    return;
+  }
+
+  console.log("\n🌱 Seeding DynamoDB tables...\n");
   await seedProfile();
   await seedExperiences();
   await seedInternships();
@@ -150,3 +173,4 @@ async function main() {
 }
 
 main().catch((e) => { console.error("❌ Seed failed:", e); process.exit(1); });
+
