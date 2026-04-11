@@ -11,7 +11,7 @@
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.7.2",
     "aws-amplify": "^6.16.2",
-    "next": "16.1.6",
+    "next": "16.2.3",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
